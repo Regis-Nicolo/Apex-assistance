@@ -1,0 +1,18 @@
+Plugin Joomla to Worpress:
+
+Ce que le plugin ne fait pas:
+
+- non compatible Joomla 1.0
+- non compatible Mambo
+- non compatible Elxis
+- ne migre pas les images vedettes de Joomla 2.5+
+- ne migre pas les balises 3.1+ Joomla
+- ne migre pas les auteurs
+- ne migre pas les alias d'auteurs
+- ne migre pas les utilisateurs
+- ne migre pas les mot de passe utilisateurs
+- ne migre les menus de navigation
+- ne migre pas les modules de HTML personnalisés
+- SEO: ne redirige pas les URL Joomla ou garde les IDs des articles Joomla
+- SEO: ne migre pas les meta descriptions et meta keywords
+- ne permet pas l'utilisation d'add-on (modules)
