@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 28 Juin 2017 à 14:31
+-- Généré le :  Mer 28 Juin 2017 à 14:44
 -- Version du serveur :  5.7.18-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `Apex`
 --
+CREATE DATABASE IF NOT EXISTS `Apex` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `Apex`;
 
 -- --------------------------------------------------------
 
@@ -309,39 +311,6 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 -- --------------------------------------------------------
 
 --
--- Structure de la table `wp_termmeta`
---
-
-CREATE TABLE `wp_termmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL,
-  `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `meta_key` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `meta_value` longtext COLLATE utf8mb4_unicode_520_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `wp_terms`
---
-
-CREATE TABLE `wp_terms` (
-  `term_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `slug` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `term_group` bigint(10) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
-
---
--- Contenu de la table `wp_terms`
---
-
-INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
-(1, 'Non classé', 'non-classe', 0);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `wp_term_relationships`
 --
 
@@ -379,6 +348,39 @@ CREATE TABLE `wp_term_taxonomy` (
 
 INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
 (1, 1, 'category', '', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wp_termmeta`
+--
+
+CREATE TABLE `wp_termmeta` (
+  `meta_id` bigint(20) UNSIGNED NOT NULL,
+  `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `meta_key` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `meta_value` longtext COLLATE utf8mb4_unicode_520_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wp_terms`
+--
+
+CREATE TABLE `wp_terms` (
+  `term_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `slug` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `term_group` bigint(10) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+--
+-- Contenu de la table `wp_terms`
+--
+
+INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
+(1, 'Non classé', 'non-classe', 0);
 
 -- --------------------------------------------------------
 
@@ -498,6 +500,21 @@ ALTER TABLE `wp_posts`
   ADD KEY `post_author` (`post_author`);
 
 --
+-- Index pour la table `wp_term_relationships`
+--
+ALTER TABLE `wp_term_relationships`
+  ADD PRIMARY KEY (`object_id`,`term_taxonomy_id`),
+  ADD KEY `term_taxonomy_id` (`term_taxonomy_id`);
+
+--
+-- Index pour la table `wp_term_taxonomy`
+--
+ALTER TABLE `wp_term_taxonomy`
+  ADD PRIMARY KEY (`term_taxonomy_id`),
+  ADD UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
+  ADD KEY `taxonomy` (`taxonomy`);
+
+--
 -- Index pour la table `wp_termmeta`
 --
 ALTER TABLE `wp_termmeta`
@@ -512,21 +529,6 @@ ALTER TABLE `wp_terms`
   ADD PRIMARY KEY (`term_id`),
   ADD KEY `slug` (`slug`(191)),
   ADD KEY `name` (`name`(191));
-
---
--- Index pour la table `wp_term_relationships`
---
-ALTER TABLE `wp_term_relationships`
-  ADD PRIMARY KEY (`object_id`,`term_taxonomy_id`),
-  ADD KEY `term_taxonomy_id` (`term_taxonomy_id`);
-
---
--- Index pour la table `wp_term_taxonomy`
---
-ALTER TABLE `wp_term_taxonomy`
-  ADD PRIMARY KEY (`term_taxonomy_id`),
-  ADD UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
-  ADD KEY `taxonomy` (`taxonomy`);
 
 --
 -- Index pour la table `wp_usermeta`
@@ -580,6 +582,11 @@ ALTER TABLE `wp_postmeta`
 ALTER TABLE `wp_posts`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT pour la table `wp_term_taxonomy`
+--
+ALTER TABLE `wp_term_taxonomy`
+  MODIFY `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT pour la table `wp_termmeta`
 --
 ALTER TABLE `wp_termmeta`
@@ -589,11 +596,6 @@ ALTER TABLE `wp_termmeta`
 --
 ALTER TABLE `wp_terms`
   MODIFY `term_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `wp_term_taxonomy`
---
-ALTER TABLE `wp_term_taxonomy`
-  MODIFY `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `wp_usermeta`
 --
